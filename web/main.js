@@ -1,6 +1,5 @@
 var ans_word = JSON.parse(localStorage.used);
-var guessing_times = 0;
-var used_voc = JSON.parse(localStorage.char);
+var guessing_times = JSON.parse(localStorage.times);
 
 async function sleep(ms = 0)
 {
@@ -21,13 +20,6 @@ async function guessing()
     else if(valid === -1)
     {
         alert("輸入的單字有非法字元，請重新輸入!");
-        document.getElementById("guessword").value = '';
-        return;
-    }
-    var inused = await eel.check_used(guess, used_voc)();
-    if(inused)
-    {
-        alert("有字元已使用過並確認不在答案中，請重新輸入!");
         document.getElementById("guessword").value = '';
         return;
     }
@@ -53,14 +45,12 @@ async function guessing()
         else if(ifans[i] == 0)
             row.cells[i].className = 'used';
         else
-        {
             row.cells[i].className = 'wa';
-            used_voc.push(guess[i])
-        }
         await sleep(100);
-        localStorage.char = JSON.stringify(used_voc);
     }
     guessing_times--;
+    localStorage.times = JSON.stringify(guessing_times);
+    document.getElementById("guess_left").innerHTML = "剩餘可猜測次數為 <strong>" + guessing_times + "</strong> 次";
     if(corrects == guess.length)
     {
         var myModal = new bootstrap.Modal(document.getElementById("win"), {});
@@ -80,11 +70,11 @@ async function guessing()
         var audio = new Audio('./music/try.mp3');
         audio.play();
     }
+
 }
 
 async function init_table()
 {
-    guessing_times = ans_word.length + 1;
     var newelment = "<tbody>"
     for(let i = 0; i < guessing_times; ++i)
     {
@@ -103,7 +93,7 @@ async function select_word()
     var length = document.getElementById("word_length").value;
     var ans_word = await eel.select_voc(length)();
     localStorage.used = JSON.stringify(ans_word);
-    localStorage.char = JSON.stringify([])
+    localStorage.times = JSON.stringify(ans_word.length + 1)
     window.location.replace('normal.html');
 }
 

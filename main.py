@@ -35,12 +35,7 @@ def check_input_if_valid(input, ans_voc):
             return 0
     else:
         return -1
-
-@eel.expose
-def check_used(input, chararr):
-    chararr = list(chararr)
-    return input in chararr
-
+        
 @eel.expose
 def check_input_if_indict(input):
     return str(input) in data[str(len(input))]
