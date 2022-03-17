@@ -15,16 +15,16 @@
     <body>
         <audio src = "./music/bgmusic.mp3" id = "idxaudio" loop autoplay style = "display: none;" ></audio>
         <nav class = "navbar navbar-expand-lg justify-content-center">
-            Vordle
+            Vordle - Wordle For Vtuber
         </nav>
         <div class = 'container'>
             <div class = 'img_area'>
-                <img class = 'banner mt-4' src = './image/banner.jpg'>
+                <img class = 'banner mt-4 rounded shadow-lg' src = './image/banner.jpg'>
             </div>
             <div class = 'btn_area mt-4 mb-4'>
                 <h4 class = 'mode_title'>Normal Mode</h4>
-                <div class = 'input-group mt-3' style = 'width: 50%; margin: 0 auto;'>
-                    <select class = "form-select" id = "word_length" style = 'width: 60%;'>
+                <div class = 'row mt-3' style = 'width: 50%; margin: 0 auto;'>
+                    <select class = "col-6" id = "word_length" style = 'margin: 0 auto;'>
                         <option selected>選擇單字長度</option>
                         <option value = "5">5</option>
                         <option value = "6">6</option>
@@ -37,13 +37,11 @@
                         <option value = "13">13</option>
                         <option value = "14">14</option>
                     </select>
-                    <button type = "button" onclick = 'select_word()' id = 'btn' class = "form-control btn">遊戲開始</button>
+                    <button type = "button" onclick = 'select_word()' id = 'btn' class = "col-3 btn" style = 'margin: 0 auto;'>遊戲開始</button>
                 </div>
                 <br>
                 <h4 class = 'mode_title'>Vtuber Mode</h4>
-                <button type = "button" onclick = 'select_vtuber()' id = 'btn' class = "btn mt-4" >由此進入</button>
-                <br>
-                <button type = "button"  id = 'btn' class = "btn mt-4">More Info.</button>
+                <button type = "button" onclick = 'select_vtuber()' id = 'btn' class = "btn mt-4" >遊戲開始</button>
                 <br>
             </div>
         </div>
