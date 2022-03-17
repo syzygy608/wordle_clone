@@ -67,4 +67,4 @@ def check_ans(input, ans_voc):
     return status
 
 eel.init('web')
-eel.start('index.html', size = (1200, 700))
+eel.start('index.html', mode = 'chrome', host = 'localhost')
