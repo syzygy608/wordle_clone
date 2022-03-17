@@ -6,8 +6,6 @@ def isEnglish(s):
 with open("twvtuber.json", "r", encoding = 'utf8') as f:
     data = json.load(f)
 
-
-
 en_vtuber = []
 other_vtuber = []
 

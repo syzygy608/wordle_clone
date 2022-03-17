@@ -6,7 +6,7 @@ async function sleep(ms = 0)
     return new Promise(r => setTimeout(r, ms));
 }
 
-async function guessing()
+async function guessing(type)
 {
     var guess = document.getElementById("guessword").value;
     document.getElementById("guessword").value = '';
@@ -23,17 +23,21 @@ async function guessing()
         document.getElementById("guessword").value = '';
         return;
     }
-    var indict = await eel.check_input_if_indict(guess)();
-    if(!indict)
+    if(type == 1)
     {
-        alert("該字串並不在單字庫內，請重新輸入!");
-        document.getElementById("guessword").value = '';
-        return;
+        var indict = await eel.check_input_if_indict(guess)();
+        if(!indict)
+        {
+            alert("該字串並不在單字庫內，請重新輸入!");
+            document.getElementById("guessword").value = '';
+            return;
+        }
     }
     var ifans = await eel.check_ans(guess, ans_word)();
     var table = document.getElementById("gametable").rows;
     var row = table[table.length - guessing_times];
     var corrects = 0;
+    guess = guess.toUpperCase();
     for(let i = 0; i < guess.length; ++i)
     {
         row.cells[i].textContent = guess[i];
@@ -79,7 +83,7 @@ async function init_table()
     for(let i = 0; i < guessing_times; ++i)
     {
         newelment += "<tr>";
-        for(let j = 0; j < guessing_times - 1; ++j)
+        for(let j = 0; j < ans_word.length; ++j)
             newelment += "<td></td>";
         newelment += "</tr>"
     }
@@ -91,14 +95,30 @@ async function init_table()
 async function select_word()
 {
     var length = document.getElementById("word_length").value;
-    var ans_word = await eel.select_voc(length)();
+    var ans_word = await eel.select_voc(1, length)();
     localStorage.used = JSON.stringify(ans_word);
     localStorage.times = JSON.stringify(ans_word.length + 1)
     window.location.replace('normal.html');
 }
 
+async function select_vtuber()
+{
+    var ans_word = await eel.select_voc(2, length)();
+    localStorage.used = JSON.stringify(ans_word);
+    localStorage.times = JSON.stringify(ans_word.length + 5)
+    window.location.replace('vtuber.html');
+}
+
 if(window.location.pathname == "/normal.html")
     init_table();
+else if( window.location.pathname == "/vtuber.html")
+{
+    init_table();
+    eel.check_vtuber_name_type(ans_word)().then(function(result){
+        document.getElementById("hint").innerHTML = result;
+    });
+    
+}
     
 if(document.getElementById("vtaudio") != null)
     document.getElementById("vtaudio").volume = 0.1;
