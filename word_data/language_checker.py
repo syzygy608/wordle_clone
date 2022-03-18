@@ -24,6 +24,15 @@ for i in data:
     else:
         other_vtuber.append(i)
 
+with open("nijisanji_vtuber.json", "r", encoding = 'utf8') as f:
+    data = json.load(f)
+
+for i in data:
+    if isEnglish(i):
+        en_vtuber.append(i)
+    else:
+        other_vtuber.append(i)
+
 finish_data = {"en" : en_vtuber, "other": other_vtuber}
 
 with open("./vtuber_final.json", "w", encoding = "utf8") as f:
