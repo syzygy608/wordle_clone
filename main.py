@@ -2,7 +2,6 @@ import eel
 import json 
 import random
 
-from urllib3 import Retry
 
 with open('./word_data/words.json') as f:
     data = json.load(f)
@@ -73,14 +72,15 @@ def check_ans(input, ans_voc):
     for i in range(len(input)):
         if input[i] == ans_voc[i]:
             status.append(1)
-            check.append(input[i])
         elif input[i] not in ans_voc:
             status.append(-1)
+            check.append(ans_voc[i])
         else:
             status.append(0)
+            check.append(ans_voc[i])
     for i in range(len(status)):
         if status[i] == 0:
-            if input[i] not in check:
+            if input[i] in check:
                 status[i] = 0
             else:
                 status[i] = -1
@@ -91,9 +91,11 @@ def return_result_copy(table):
     table = list(table)
     result = ""
     for i in range(len(table)):
+        flag = 0
         for j in range(len(table[i])):
             if table[i][j] == -2:
-                return result
+                flag = 1
+                break
             elif table[i][j] == -1:
                 result += "🖤"
             elif table[i][j] == 1:
@@ -101,6 +103,10 @@ def return_result_copy(table):
             else:
                 result += "🧡"
         result += "\n"
+        if flag == 1:
+            break
+    cnt = result.count('\n')
+    result += f"Vordle win in {cnt - 1} / {len(table)} Games\n"
     return result
 
 eel.init('web')
