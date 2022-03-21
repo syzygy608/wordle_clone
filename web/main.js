@@ -10,25 +10,35 @@ async function guessing(type)
 {
     var guess = document.getElementById("guessword").value;
     document.getElementById("guessword").value = '';
-    var valid = await eel.check_input_if_valid(guess, ans_word)();
-    if(valid === 0)
-    {
-        alert("輸入的單字長度不符合或者為空，請重新輸入!");
-        document.getElementById("guessword").value = '';
-        return;
-    }
-    else if(valid === -1)
-    {
-        alert("輸入的單字有非法字元，請重新輸入!");
-        document.getElementById("guessword").value = '';
-        return;
-    }
     if(type == 1)
     {
+        var valid = await eel.check_input_if_valid(guess, ans_word)();
+        if(valid === 0)
+        {
+            alert("輸入的單字長度不符合或者為空，請重新輸入!");
+            document.getElementById("guessword").value = '';
+            return;
+        }
+        else if(valid === -1)
+        {
+            alert("輸入的單字有非法字元，請重新輸入!");
+            document.getElementById("guessword").value = '';
+            return;
+        }
         var indict = await eel.check_input_if_indict(guess)();
         if(!indict)
         {
             alert("該字串並不在單字庫內，請重新輸入!");
+            document.getElementById("guessword").value = '';
+            return;
+        }
+    }
+    else
+    {
+        var valid = await eel.check_name_if_valid(guess, ans_word)();
+        if(valid === 0)
+        {
+            alert("輸入的單字長度不符合或者為空，請重新輸入!");
             document.getElementById("guessword").value = '';
             return;
         }

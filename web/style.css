@@ -99,6 +99,7 @@ body
     background-color: rgb(255, 255, 255);
     width: 50px;
     height: 45px;
+    line-height: 45px;
     font-size: 2rem;
     font-weight: bold;
     font-family: monospace;
@@ -122,8 +123,7 @@ body
 
 #guessword
 {
-    width: 80%;
-    
+    width: 80%;   
 }
 
 #guess
