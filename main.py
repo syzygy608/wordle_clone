@@ -1,6 +1,7 @@
 import eel
 import json 
 import random
+import os
 
 with open('./word_data/words.json') as f:
     data = json.load(f)
@@ -86,3 +87,5 @@ def check_ans(input, ans_voc):
 
 eel.init('web')
 eel.start('index.html', mode = 'chrome', host = 'localhost')
+
+os.system("pause")
