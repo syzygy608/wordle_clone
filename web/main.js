@@ -1,6 +1,6 @@
 var ans_word = JSON.parse(localStorage.used);
 var guessing_times = JSON.parse(localStorage.times);
-
+// var status = JSON.parse(localStorage.status);
 async function sleep(ms = 0)
 {
     return new Promise(r => setTimeout(r, ms));
@@ -46,6 +46,7 @@ async function guessing(type)
     var ifans = await eel.check_ans(guess, ans_word)();
     var table = document.getElementById("gametable").rows;
     var row = table[table.length - guessing_times];
+    var status = JSON.parse(localStorage.status);
     var corrects = 0;
     guess = guess.toUpperCase();
     for(let i = 0; i < guess.length; ++i)
@@ -60,11 +61,13 @@ async function guessing(type)
             row.cells[i].className = 'used';
         else
             row.cells[i].className = 'wa';
+        status[table.length - guessing_times][i] = ifans[i]; 
         await sleep(100);
     }
     guessing_times--;
     localStorage.times = JSON.stringify(guessing_times);
     document.getElementById("guess_left").innerHTML = "剩餘可猜測次數為 <strong>" + guessing_times + "</strong> 次";
+    localStorage.status = JSON.stringify(status);
     if(corrects == guess.length)
     {
         var myModal = new bootstrap.Modal(document.getElementById("win"), {});
@@ -89,17 +92,25 @@ async function guessing(type)
 
 async function init_table()
 {
+    var status = [];
     var newelment = "<tbody>"
     for(let i = 0; i < guessing_times; ++i)
     {
+        var temp = [];
         newelment += "<tr>";
         for(let j = 0; j < ans_word.length; ++j)
+        {
             newelment += "<td></td>";
+            temp.push(-2);
+        }
         newelment += "</tr>"
+        status.push(temp);
     }
     newelment += '</tbody>'
     document.getElementById("gametable").innerHTML = newelment;
     document.getElementById("guess_left").innerHTML = "剩餘可猜測次數為 <strong>" + guessing_times + "</strong> 次";
+    console.log(status)
+    localStorage.status = JSON.stringify(status);
 }
 
 async function select_word()
@@ -107,7 +118,7 @@ async function select_word()
     var length = document.getElementById("word_length").value;
     var ans_word = await eel.select_voc(1, length)();
     localStorage.used = JSON.stringify(ans_word);
-    localStorage.times = JSON.stringify(ans_word.length + 1)
+    localStorage.times = JSON.stringify(ans_word.length + 1);
     window.location.replace('normal.html');
 }
 
@@ -127,7 +138,15 @@ else if( window.location.pathname == "/vtuber.html")
     eel.check_vtuber_name_type(ans_word)().then(function(result){
         document.getElementById("hint").innerHTML = result;
     });
-    
+}
+
+async function get_result()
+{
+    var status = JSON.parse(localStorage.status);
+    var result = await eel.return_result_copy(status)();
+    navigator.clipboard.writeText(result);
+    var myModal = new bootstrap.Modal(document.getElementById("copied"), {});
+    myModal.show();
 }
     
 if(document.getElementById("vtaudio") != null)

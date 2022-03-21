@@ -1,7 +1,8 @@
 import eel
 import json 
 import random
-import os
+
+from urllib3 import Retry
 
 with open('./word_data/words.json') as f:
     data = json.load(f)
@@ -85,7 +86,22 @@ def check_ans(input, ans_voc):
                 status[i] = -1
     return status
 
+@eel.expose
+def return_result_copy(table):
+    table = list(table)
+    result = ""
+    for i in range(len(table)):
+        for j in range(len(table[i])):
+            if table[i][j] == -2:
+                return result
+            elif table[i][j] == -1:
+                result += "🖤"
+            elif table[i][j] == 1:
+                result +=  "💚"
+            else:
+                result += "🧡"
+        result += "\n"
+    return result
+
 eel.init('web')
 eel.start('index.html', mode = 'chrome', host = 'localhost')
-
-os.system("pause")

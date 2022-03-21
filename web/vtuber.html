@@ -42,6 +42,7 @@
                     <div class = "modal-body">
                         恭喜你在次數內完成了Vordle挑戰，回到首頁以開始新的一局。
                         <div class = "modal-footer">
+                            <button class = 'btn' id = 'guess' onclick = "get_result()">複製結果</button>
                             <a class = "btn" id = "guess" href = "index.html">回到首頁</a>
                         </div>
                     </div>
@@ -56,6 +57,21 @@
                     </div>
                     <div class = "modal-body">
                         你在次數內沒有完成了Vordle挑戰，回到首頁以開始新的一局。
+                        <div class = "modal-footer">
+                            <a class = "btn" id = "guess" href = "index.html">回到首頁</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "modal fade" id = "copied" data-bs-backdrop = "static" tabindex = "-1" aria-labelledby = "ModalLabel" aria-hidden = "true">
+            <div class = "modal-dialog modal-dialog-centered">
+                <div class = "modal-content">
+                    <div class = "modal-header">
+                        <h5 class = "modal-title" id = "ModalLabel">Final Result</h5>
+                    </div>
+                    <div class = "modal-body">
+                        複製成功!
                         <div class = "modal-footer">
                             <a class = "btn" id = "guess" href = "index.html">回到首頁</a>
                         </div>
