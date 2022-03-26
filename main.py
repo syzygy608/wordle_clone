@@ -81,6 +81,7 @@ def check_ans(input, ans_voc):
     for i in range(len(status)):
         if status[i] == 0:
             if input[i] in check:
+                check.remove(input[i])
                 status[i] = 0
             else:
                 status[i] = -1
